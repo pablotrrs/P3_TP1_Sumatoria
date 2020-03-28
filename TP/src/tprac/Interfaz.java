@@ -670,12 +670,12 @@ public class Interfaz extends JFrame {
 	private static void inputValido(Map<String, ArrayList<JTextField>> m) {
 		for (Map.Entry<String, ArrayList<JTextField>> e : m.entrySet()) {
 			for (JTextField arr : e.getValue()) {
-				restringirInput(arr);
+				inputSoloNumeros(arr);
 			}
 		}
 	}
 
-	private static void restringirInput(JTextField tf) {
+	private static void inputSoloNumeros(JTextField tf) {
 		tf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent ke) {
