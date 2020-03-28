@@ -39,7 +39,7 @@ public class Interfaz extends JFrame {
 	private JLabel lbResultado;
 	private JLabel lbTituloReglas;
 	private JLabel lbReglas;
-	private JLabel lbWinner;
+	private JLabel lbGifCelebracion;
 	private JLabel lbFondo;
 
 	private JTextField tF1_1;
@@ -67,7 +67,7 @@ public class Interfaz extends JFrame {
 	private JDialog frameReglas;
 	private JDialog frameWinner;
 
-	private static Map<String, ArrayList<JTextField>> mapNumsUsr;
+	private static Map<String, ArrayList<JTextField>> grupoInputsUsr;
 	private static Map<String, JLabel> lblsFilas;
 	private static Map<String, JLabel> lblsColumnas;
 
@@ -164,7 +164,7 @@ public class Interfaz extends JFrame {
 	}
 
 	private void textFields() {
-		mapNumsUsr = new HashMap<String, ArrayList<JTextField>>();
+		grupoInputsUsr = new HashMap<String, ArrayList<JTextField>>();
 		txfsFila1 = new ArrayList<JTextField>();
 		txfsFila2 = new ArrayList<JTextField>();
 		txfsFila3 = new ArrayList<JTextField>();
@@ -214,7 +214,7 @@ public class Interfaz extends JFrame {
 		txfsFila1.add(tF1_2);
 		txfsFila1.add(tF1_3);
 		txfsFila1.add(tF1_4);
-		mapNumsUsr.put("f1", txfsFila1);
+		grupoInputsUsr.put("f1", txfsFila1);
 		////////////////////////////////////////
 		tF2_1 = new JTextField();
 		tF2_1.setForeground(new Color(255, 255, 255));
@@ -260,7 +260,7 @@ public class Interfaz extends JFrame {
 		txfsFila2.add(tF2_2);
 		txfsFila2.add(tF2_3);
 		txfsFila2.add(tF2_4);
-		mapNumsUsr.put("f2", txfsFila2);
+		grupoInputsUsr.put("f2", txfsFila2);
 		////////////////////////////////////////
 		tF3_1 = new JTextField();
 		tF3_1.setForeground(new Color(255, 255, 255));
@@ -306,7 +306,7 @@ public class Interfaz extends JFrame {
 		txfsFila3.add(tF3_2);
 		txfsFila3.add(tF3_3);
 		txfsFila3.add(tF3_4);
-		mapNumsUsr.put("f3", txfsFila3);
+		grupoInputsUsr.put("f3", txfsFila3);
 		////////////////////////////////////////
 		tF4_1 = new JTextField();
 		tF4_1.setForeground(new Color(255, 255, 255));
@@ -352,7 +352,7 @@ public class Interfaz extends JFrame {
 		txfsFila4.add(tF4_2);
 		txfsFila4.add(tF4_3);
 		txfsFila4.add(tF4_4);
-		mapNumsUsr.put("f4", txfsFila4);
+		grupoInputsUsr.put("f4", txfsFila4);
 		////////////////////////////////////////
 	}
 
@@ -460,7 +460,7 @@ public class Interfaz extends JFrame {
 		lbFondo.setBounds(0, 0, 640, 480);
 		frame.getContentPane().add(lbFondo);
 
-		elegirSoluciones();
+		cambiarSoluciones();
 
 		// labels del frame ventanaReglas
 		lbRecuadroReglas = new JLabel("");
@@ -484,14 +484,14 @@ public class Interfaz extends JFrame {
 		frameReglas.getContentPane().add(lbReglas);
 
 		// label del frame winner
-		lbWinner = new JLabel("");
-		lbWinner.setIcon(new ImageIcon(Interfaz.class.getResource("/tprac/Imgs/gifCelebration2.gif")));
-		lbWinner.setBounds(0, 0, 640, 200);
-		frameWinner.getContentPane().add(lbWinner);
+		lbGifCelebracion = new JLabel("");
+		lbGifCelebracion.setIcon(new ImageIcon(Interfaz.class.getResource("/tprac/Imgs/gifCelebration2.gif")));
+		lbGifCelebracion.setBounds(0, 0, 640, 200);
+		frameWinner.getContentPane().add(lbGifCelebracion);
 	}
 
 	private void eventos() {
-		inputValido(mapNumsUsr);
+		inputValido(grupoInputsUsr);
 
 		// accion boton minimizar
 		lbMinimizar.addMouseListener(new MouseAdapter() {
@@ -523,7 +523,7 @@ public class Interfaz extends JFrame {
 		btnBorrar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				borrarNumsUsr();
+				borrarNumerosUsr();
 				ocultarResultado();
 			}
 		});
@@ -531,8 +531,8 @@ public class Interfaz extends JFrame {
 		btnJuegoNuevo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				borrarNumsUsr();
-				elegirSoluciones();
+				borrarNumerosUsr();
+				cambiarSoluciones();
 				ocultarResultado();
 			}
 		});
@@ -540,8 +540,8 @@ public class Interfaz extends JFrame {
 		btnVerificar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				boolean booleanFilas = sumarFilas();
-				boolean booleanColumnas = sumarColumnas();
+				boolean booleanFilas = verificarFilas();
+				boolean booleanColumnas = verificarColumnas();
 				if (booleanFilas && booleanColumnas) {
 					resultadoJuego(true, "¡¡¡GANASTE!!!");
 				} else {
@@ -569,17 +569,17 @@ public class Interfaz extends JFrame {
 		});
 	}
 	//suma los numeros ingresados por el usuario en las filas con la ayuda de un metodo del codigo de negocio (sumar())
-	private static boolean sumarFilas() {
+	private static boolean verificarFilas() {
 		boolean ret = true;
 		for (int i = 1; i <= 4; i++) {
-			ArrayList<JTextField> arregloMap = mapNumsUsr.get("f" + String.valueOf(i));
-			ArrayList<Integer> numeros = new ArrayList<Integer>();
-			for (int j = 0; j < arregloMap.size(); j++) {
-				if (!arregloMap.get(j).getText().equals("")) {
-					numeros.add(Integer.parseInt((arregloMap.get(j).getText())));
+			ArrayList<JTextField> filaI = grupoInputsUsr.get("f" + String.valueOf(i));
+			ArrayList<Integer> numerosFilaI = new ArrayList<Integer>();
+			for (int j = 0; j < filaI.size(); j++) {
+				if (!filaI.get(j).getText().equals("")) {
+					numerosFilaI.add(Integer.parseInt((filaI.get(j).getText())));
 				}
 			}
-			if (!Negocio.sumar(numeros, i, "f")) {
+			if (!Negocio.sumarNumerosGrupo(numerosFilaI, i, "f")) {
 				ret &= true;
 				cambiarColorMal(lblsFilas.get(String.valueOf(i)));
 			} else {
@@ -589,16 +589,16 @@ public class Interfaz extends JFrame {
 		return ret;
 	}
 	//suma los numeros ingresados por el usuario en las columnas con la ayuda de un metodo del codigo de negocio (sumar())
-	private static boolean sumarColumnas() {
+	private static boolean verificarColumnas() {
 		boolean ret = true;
 		for (int i = 1; i <= 4; i++) {
-			ArrayList<Integer> numeros = new ArrayList<Integer>();
+			ArrayList<Integer> numerosColumnaI = new ArrayList<Integer>();
 			for (int j = 1; j < 5; j++) {
-				if (!mapNumsUsr.get("f" + String.valueOf(j)).get(i - 1).getText().equals("")) {
-					numeros.add(Integer.parseInt(mapNumsUsr.get("f" + String.valueOf(j)).get(i - 1).getText()));
+				if (!grupoInputsUsr.get("f" + String.valueOf(j)).get(i - 1).getText().equals("")) {
+					numerosColumnaI.add(Integer.parseInt(grupoInputsUsr.get("f" + String.valueOf(j)).get(i - 1).getText()));
 				}
 			}
-			if (!Negocio.sumar(numeros, i, "c")) {
+			if (!Negocio.sumarNumerosGrupo(numerosColumnaI, i, "c")) {
 				ret &= false;
 				cambiarColorMal(lblsColumnas.get(String.valueOf(i)));
 			} else {
@@ -637,8 +637,8 @@ public class Interfaz extends JFrame {
 
 	}
 	//borra los numeros ingresador por el usuario en los textFields
-	private static void borrarNumsUsr() {
-		for (Map.Entry<String, ArrayList<JTextField>> e : mapNumsUsr.entrySet()) {
+	private static void borrarNumerosUsr() {
+		for (Map.Entry<String, ArrayList<JTextField>> e : grupoInputsUsr.entrySet()) {
 			for (JTextField arr : e.getValue()) {
 				arr.setText("");
 			}
@@ -646,8 +646,8 @@ public class Interfaz extends JFrame {
 	}
 	// Pide las soluciones a una funcion del codigo de negocio (generarSoluciones()) y las pone en
 	// los labels de las soluciones de filas y columnas
-	private static void elegirSoluciones() {
-		ArrayList<ArrayList<Integer>> soluciones = Negocio.generarSoluciones();
+	private static void cambiarSoluciones() {
+		ArrayList<ArrayList<Integer>> soluciones = Negocio.generarSolucionesFilasYColumnas();
 		for (int i = 0; i < 4; i++) {
 			lblsFilas.get(String.valueOf(i + 1)).setText(String.valueOf(soluciones.get(0).get(i)));
 		}
@@ -659,11 +659,11 @@ public class Interfaz extends JFrame {
 	private static void inputValido(Map<String, ArrayList<JTextField>> m) {
 		for (Map.Entry<String, ArrayList<JTextField>> e : m.entrySet()) {
 			for (JTextField arr : e.getValue()) {
-				txfsInput(arr);
+				restringirInput(arr);
 			}
 		}
 	}
-	private static void txfsInput(JTextField tf) {
+	private static void restringirInput(JTextField tf) {
 		tf.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent ke) {
