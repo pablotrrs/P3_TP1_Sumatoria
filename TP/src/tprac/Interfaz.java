@@ -569,8 +569,7 @@ public class Interfaz extends JFrame {
 		});
 	}
 
-	// suma los numeros ingresados por el usuario en las filas con la ayuda de un
-	// metodo del codigo de negocio (sumar())
+	// verifica si las sumas de las filas es igual a cada una de las soluciones
 	private static boolean verificarFilas() {
 		boolean ret = true;
 		for (int i = 1; i <= 4; i++) {
@@ -591,8 +590,7 @@ public class Interfaz extends JFrame {
 		return ret;
 	}
 
-	// suma los numeros ingresados por el usuario en las columnas con la ayuda de un
-	// metodo del codigo de negocio (sumar())
+	// verifica si las sumas de las columnas es igual a cada una de las soluciones
 	private static boolean verificarColumnas() {
 		boolean ret = true;
 		for (int i = 1; i <= 4; i++) {
@@ -644,7 +642,7 @@ public class Interfaz extends JFrame {
 
 	}
 
-	// borra los numeros ingresador por el usuario en los textFields
+	// borra los numeros ingresados por el usuario en los textFields
 	private static void borrarNumerosUsr() {
 		for (Map.Entry<String, ArrayList<JTextField>> e : grupoInputsUsr.entrySet()) {
 			for (JTextField arr : e.getValue()) {
@@ -653,7 +651,7 @@ public class Interfaz extends JFrame {
 		}
 	}
 
-	// Pide las soluciones a una funcion del codigo de negocio (generarSoluciones())
+	// Pide las soluciones a una funcion del codigo de negocio (generarSolucionesFilasYColumnas())
 	// y las pone en
 	// los labels de las soluciones de filas y columnas
 	private static void cambiarSoluciones() {
@@ -666,7 +664,7 @@ public class Interfaz extends JFrame {
 		}
 	}
 
-	// verifican que los datos que ingresa el usuario sean numeros entre 0 y 99
+	// hacen que los datos que ingresa el usuario sean numeros entre 00 y 99
 	private static void inputValido(Map<String, ArrayList<JTextField>> m) {
 		for (Map.Entry<String, ArrayList<JTextField>> e : m.entrySet()) {
 			for (JTextField arr : e.getValue()) {
