@@ -357,7 +357,7 @@ public class Interfaz extends JFrame {
 	}
 
 	private void labels() {
-		
+
 		lbCerrar = new JLabel("X");
 		lbCerrar.setBounds(613, 0, 17, 29);
 		lbCerrar.setForeground(new Color(255, 255, 255));
@@ -383,7 +383,7 @@ public class Interfaz extends JFrame {
 		lbResultado.setBounds(182, 86, 251, 29);
 		frame.getContentPane().add(lbResultado);
 
-		//labels de las soluciones de las filas
+		// labels de las soluciones de las filas
 		lblsFilas = new HashMap<String, JLabel>();
 
 		JLabel slcF1 = new JLabel("X");
@@ -418,8 +418,8 @@ public class Interfaz extends JFrame {
 		lblsFilas.put("2", slcF2);
 		lblsFilas.put("3", slcF3);
 		lblsFilas.put("4", slcF4);
-		
-		//labels de las soluciones de las columnas		
+
+		// labels de las soluciones de las columnas
 		lblsColumnas = new HashMap<String, JLabel>();
 
 		JLabel slcC1 = new JLabel("X");
@@ -454,7 +454,7 @@ public class Interfaz extends JFrame {
 		lblsColumnas.put("2", slcC2);
 		lblsColumnas.put("3", slcC3);
 		lblsColumnas.put("4", slcC4);
-		
+
 		lbFondo = new JLabel("");
 		lbFondo.setIcon(new ImageIcon(Interfaz.class.getResource("/tprac/Imgs/fondo.png")));
 		lbFondo.setBounds(0, 0, 640, 480);
@@ -568,7 +568,9 @@ public class Interfaz extends JFrame {
 			}
 		});
 	}
-	//suma los numeros ingresados por el usuario en las filas con la ayuda de un metodo del codigo de negocio (sumar())
+
+	// suma los numeros ingresados por el usuario en las filas con la ayuda de un
+	// metodo del codigo de negocio (sumar())
 	private static boolean verificarFilas() {
 		boolean ret = true;
 		for (int i = 1; i <= 4; i++) {
@@ -588,14 +590,17 @@ public class Interfaz extends JFrame {
 		}
 		return ret;
 	}
-	//suma los numeros ingresados por el usuario en las columnas con la ayuda de un metodo del codigo de negocio (sumar())
+
+	// suma los numeros ingresados por el usuario en las columnas con la ayuda de un
+	// metodo del codigo de negocio (sumar())
 	private static boolean verificarColumnas() {
 		boolean ret = true;
 		for (int i = 1; i <= 4; i++) {
 			ArrayList<Integer> numerosColumnaI = new ArrayList<Integer>();
 			for (int j = 1; j < 5; j++) {
 				if (!grupoInputsUsr.get("f" + String.valueOf(j)).get(i - 1).getText().equals("")) {
-					numerosColumnaI.add(Integer.parseInt(grupoInputsUsr.get("f" + String.valueOf(j)).get(i - 1).getText()));
+					numerosColumnaI
+							.add(Integer.parseInt(grupoInputsUsr.get("f" + String.valueOf(j)).get(i - 1).getText()));
 				}
 			}
 			if (!Negocio.sumarNumerosGrupo(numerosColumnaI, i, "c")) {
@@ -607,7 +612,8 @@ public class Interfaz extends JFrame {
 		}
 		return ret;
 	}
-	//cambia el color de la label recibida a rojo
+
+	// cambia el color de la label recibida a rojo
 	public static void cambiarColorMal(JLabel l) {
 		l.setForeground(new Color(255, 0, 51));
 		ActionListener tP = new ActionListener() {
@@ -620,7 +626,8 @@ public class Interfaz extends JFrame {
 		tick.setRepeats(false);
 		tick.start();
 	}
-	//cambia el color de la label recibida a verde
+
+	// cambia el color de la label recibida a verde
 	public static void cambiarColorBien(JLabel l) {
 		l.setForeground(new Color(0, 255, 0));
 
@@ -636,7 +643,8 @@ public class Interfaz extends JFrame {
 		tick.start();
 
 	}
-	//borra los numeros ingresador por el usuario en los textFields
+
+	// borra los numeros ingresador por el usuario en los textFields
 	private static void borrarNumerosUsr() {
 		for (Map.Entry<String, ArrayList<JTextField>> e : grupoInputsUsr.entrySet()) {
 			for (JTextField arr : e.getValue()) {
@@ -644,7 +652,9 @@ public class Interfaz extends JFrame {
 			}
 		}
 	}
-	// Pide las soluciones a una funcion del codigo de negocio (generarSoluciones()) y las pone en
+
+	// Pide las soluciones a una funcion del codigo de negocio (generarSoluciones())
+	// y las pone en
 	// los labels de las soluciones de filas y columnas
 	private static void cambiarSoluciones() {
 		ArrayList<ArrayList<Integer>> soluciones = Negocio.generarSolucionesFilasYColumnas();
@@ -655,7 +665,8 @@ public class Interfaz extends JFrame {
 			lblsColumnas.get(String.valueOf(i + 1)).setText(String.valueOf(soluciones.get(1).get(i)));
 		}
 	}
-	//verifican que los datos que ingresa el usuario sean numeros entre 0 y 99
+
+	// verifican que los datos que ingresa el usuario sean numeros entre 0 y 99
 	private static void inputValido(Map<String, ArrayList<JTextField>> m) {
 		for (Map.Entry<String, ArrayList<JTextField>> e : m.entrySet()) {
 			for (JTextField arr : e.getValue()) {
@@ -663,6 +674,7 @@ public class Interfaz extends JFrame {
 			}
 		}
 	}
+
 	private static void restringirInput(JTextField tf) {
 		tf.addKeyListener(new KeyAdapter() {
 			@Override
